@@ -1,5 +1,4 @@
-export enum UserRole {
-  ADMIN,
-  DEV,
-  USER,
-}
+// it is necessary to change this implementation
+import { UserRole } from '@prisma/client'
+
+export { UserRole }
