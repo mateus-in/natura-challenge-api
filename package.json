@@ -8,6 +8,7 @@
     "start": "node build/server.js",
     "start:dev": "tsx watch src/server.ts",
     "test": "vitest run --dir src/application",
+    "test:detailed": "vitest run --dir src/application --reporter verbose",
     "test:watch": "vitest watch --dir src/application"
   },
   "keywords": [],
