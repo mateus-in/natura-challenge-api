@@ -5,6 +5,10 @@
   "scripts": {
     "build": "tsup src/server.ts --out-dir build",
     "lint": "eslint src --ext .ts --fix",
+    "prisma:generate": "npx prisma generate --schema=src/infrastructure/database/schema.prisma",
+    "prisma:migrate:dev": "npx prisma migrate dev --schema=src/infrastructure/database/schema.prisma",
+    "prisma:migrate:reset": "npx prisma migrate reset --schema=src/infrastructure/database/schema.prisma",
+    "prisma:studio": "npx prisma studio --schema=src/infrastructure/database/schema.prisma",
     "start": "node build/server.js",
     "start:dev": "tsx watch src/server.ts",
     "test": "vitest run --dir src/application",
@@ -16,6 +20,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^5.19.1",
     "dotenv": "16.4.5",
     "fastify": "4.28.1",
     "zod": "3.23.8"
@@ -24,6 +29,7 @@
     "@rocketseat/eslint-config": "2.2.2",
     "@types/node": "20.14.12",
     "eslint": "8.57.0",
+    "prisma": "^5.19.1",
     "tsup": "^8.2.3",
     "tsx": "4.16.2",
     "typescript": "5.5.4",

@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id          String     @id
+  name        String     @unique
+  description String
+  categories  Category[]
+
+  @@map("departments")
+}
+
+model Category {
+  id            String              @id
+  department_id String
+  department    Department          @relation(fields: [department_id], references: [id])
+  name          String              @unique
+  description   String
+  products      ProductOnCategory[]
+
+  @@map("categories")
+}
+
+model Product {
+  id            String              @id
+  name          String
+  description   String
+  price         Decimal             @db.Decimal(10, 2)
+  stockQuantity Int
+  categories    ProductOnCategory[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+
+  @@map("products")
+}
+
+model ProductOnCategory {
+  id          String   @id
+  category_id String
+  category    Category @relation(fields: [category_id], references: [id])
+  product_id  String
+  product     Product  @relation(fields: [product_id], references: [id])
+
+  @@unique([category_id, product_id])
+  @@map("categories_products")
+}
+
+enum UserRole {
+  ADMIN
+  DEV
+  USER
+}
+
+model User {
+  id            String   @id
+  email         String   @unique
+  name          String
+  password_hash String
+  role          UserRole @default(USER)
+  carts         Cart[]
+  orders        Order[]
+
+  @@map("users")
+}
+
+model Cart {
+  id      String     @id
+  user_id String
+  user    User       @relation(fields: [user_id], references: [id])
+  items   CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id         String  @id
+  cart_id    String
+  cart       Cart    @relation(fields: [cart_id], references: [id])
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id])
+  quantity   Int     @default(1)
+
+  @@unique([cart_id, product_id])
+  @@map("carts_items")
+}
+
+model Order {
+  id      String      @id
+  user_id String
+  user    User        @relation(fields: [user_id], references: [id])
+  price   Decimal     @db.Decimal(10, 2)
+  items   OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String  @id
+  order_id   String
+  order      Order   @relation(fields: [order_id], references: [id])
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id])
+  quantity   Int     @default(1)
+  price      Decimal @db.Decimal(10, 2)
+
+  @@unique([order_id, product_id])
+  @@map("orders_items")
+}
