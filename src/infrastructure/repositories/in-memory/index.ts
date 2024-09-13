@@ -1,0 +1,6 @@
+export * from './in-memory-cart-repository'
+export * from './in-memory-category-repository'
+export * from './in-memory-department-repository'
+export * from './in-memory-order-repository'
+export * from './in-memory-product-repository'
+export * from './in-memory-user-repository'
