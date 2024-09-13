@@ -89,7 +89,7 @@ describe('Remove Item To Cart Use Case', () => {
     expect(inMemoryProductRepository.items[0].stockQuantity).toEqual(10)
   })
 
-  it('deve lançar uma exceção se o carrinho não for encontrado', async () => {
+  it('deve lançar um erro se o carrinho não for encontrado', async () => {
     await expect(
       sut.execute({
         userId: 'user-id',
@@ -99,7 +99,7 @@ describe('Remove Item To Cart Use Case', () => {
     ).rejects.toThrowError('Cart not found')
   })
 
-  it('deve lançar uma exceção se o carrinho não for do usuário informado', async () => {
+  it('deve lançar um erro se o carrinho não for do usuário informado', async () => {
     const user = await inMemoryUserRepository.save(
       new User({
         name: 'User',

@@ -85,7 +85,7 @@ describe('Create Order Use Case', () => {
     expect(order.items.length).toEqual(1)
   })
 
-  it('deve lançar uma exceção se o usuário não for encontrado', async () => {
+  it('deve lançar um erro se o usuário não for encontrado', async () => {
     const user = await inMemoryUserRepository.save(
       new User({
         name: 'User',
@@ -127,7 +127,7 @@ describe('Create Order Use Case', () => {
     ).rejects.toThrow('User not found')
   })
 
-  it('deve lançar uma exceção se o carrinho não for encontrado', async () => {
+  it('deve lançar um erro se o carrinho não for encontrado', async () => {
     const user = await inMemoryUserRepository.save(
       new User({
         name: 'User',

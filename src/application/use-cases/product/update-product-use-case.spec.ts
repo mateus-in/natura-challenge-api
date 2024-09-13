@@ -46,7 +46,7 @@ describe('Update Product Use Case', () => {
     expect(product.name).toEqual('Updated Product')
   })
 
-  it('deve lançar uma exceção quando o produto não for encontrado', async () => {
+  it('deve lançar um erro quando o produto não for encontrado', async () => {
     await expect(
       sut.execute({
         id: 'product-1',

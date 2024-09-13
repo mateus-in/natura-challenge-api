@@ -84,7 +84,7 @@ describe('Get Product Use Case', () => {
     expect(product.id).toEqual(inMemoryProductRepository.items[0].id)
   })
 
-  it('deve lançar uma exceção se o produto não for encontrado', async () => {
+  it('deve lançar um erro se o produto não for encontrado', async () => {
     const department = await inMemoryDepartmentRepository.save(
       new Department({
         name: 'Department',

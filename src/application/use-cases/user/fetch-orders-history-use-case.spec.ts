@@ -79,7 +79,7 @@ describe('FetchOrdersHistoryUseCase', () => {
     expect(orders.length).toEqual(1)
   })
 
-  it('Deve lançar uma exceção se o usuário não for encontrado', async () => {
+  it('deve lançar um erro se o usuário não for encontrado', async () => {
     await expect(
       sut.execute({
         userId: '2',

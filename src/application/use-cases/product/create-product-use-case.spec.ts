@@ -75,7 +75,7 @@ describe('Create Product Use Case', () => {
     expect(product.categories.length).toEqual(2)
   })
 
-  it('deve lançar uma exceção se alguma das categorias não for encontrada', async () => {
+  it('deve lançar um erro se alguma das categorias não for encontrada', async () => {
     const department = await inMemoryDepartmentRepository.save(
       new Department({
         name: 'Department',

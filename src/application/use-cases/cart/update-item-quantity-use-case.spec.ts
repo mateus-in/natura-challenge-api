@@ -81,7 +81,7 @@ describe('Update Item Quantity Use Case', () => {
     expect(inMemoryProductRepository.items[0].stockQuantity).toEqual(7)
   })
 
-  it('deve lançar uma exceção se o carrinho não for encontrado', async () => {
+  it('deve lançar um erro se o carrinho não for encontrado', async () => {
     await expect(
       sut.execute({
         userId: 'user-id',
@@ -92,7 +92,7 @@ describe('Update Item Quantity Use Case', () => {
     ).rejects.toThrowError('Cart not found')
   })
 
-  it('deve lançar uma exceção se carrinho não for do usuário informado', async () => {
+  it('deve lançar um erro se carrinho não for do usuário informado', async () => {
     const user = await inMemoryUserRepository.save(
       new User({
         name: 'User',
