@@ -1,0 +1,32 @@
+{
+  "name": "natura-challenge-api",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "scripts": {
+    "build": "tsup src/server.ts --out-dir build",
+    "lint": "eslint src --ext .ts --fix",
+    "start": "node build/server.js",
+    "start:dev": "tsx watch src/server.ts",
+    "test": "vitest run --dir src/application",
+    "test:watch": "vitest watch --dir src/application"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "16.4.5",
+    "fastify": "4.28.1",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@rocketseat/eslint-config": "2.2.2",
+    "@types/node": "20.14.12",
+    "eslint": "8.57.0",
+    "tsup": "^8.2.3",
+    "tsx": "4.16.2",
+    "typescript": "5.5.4",
+    "vite-tsconfig-paths": "4.3.2",
+    "vitest": "2.0.4"
+  }
+}
