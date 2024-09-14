@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/presentation/middlewares/verify-jwt-middleware'
+import { UserRole } from '@/domain/enums'
+import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
   addItemToCart,
   clearCart,
@@ -10,6 +11,7 @@ import {
 
 export async function cartController(app: FastifyInstance) {
   app.addHook('onRequest', verifyJwt)
+  app.addHook('onRequest', verifyUserRole([UserRole.USER]))
 
   app.post('/carts/add-item', addItemToCart)
   app.put('/carts/clear', clearCart)

@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/presentation/middlewares/verify-jwt-middleware'
+import { UserRole } from '@/domain/enums'
+import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
   createProduct,
   getProduct,
@@ -9,8 +10,18 @@ import {
 } from '@/presentation/routes/product'
 
 export async function productController(app: FastifyInstance) {
-  app.post('/products', { onRequest: [verifyJwt] }, createProduct)
   app.get('/products', paginateProducts)
   app.get('/products/:id', getProduct)
-  app.put('/products/:id', { onRequest: [verifyJwt] }, updateProduct)
+
+  app.post(
+    '/products',
+    { onRequest: [verifyJwt, verifyUserRole([UserRole.ADMIN, UserRole.DEV])] },
+    createProduct,
+  )
+
+  app.put(
+    '/products/:id',
+    { onRequest: [verifyJwt, verifyUserRole([UserRole.ADMIN, UserRole.DEV])] },
+    updateProduct,
+  )
 }

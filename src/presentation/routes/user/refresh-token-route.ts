@@ -8,8 +8,12 @@ export async function refreshToken(
     onlyCookie: true,
   })
 
+  const { role } = request.user
+
   const token = await reply.jwtSign(
-    {},
+    {
+      role,
+    },
     {
       sign: {
         sub: request.user.sub,
@@ -18,7 +22,9 @@ export async function refreshToken(
   )
 
   const refreshToken = await reply.jwtSign(
-    {},
+    {
+      role,
+    },
     {
       sign: {
         sub: request.user.sub,

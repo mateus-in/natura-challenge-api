@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/presentation/middlewares/verify-jwt-middleware'
+import { UserRole } from '@/domain/enums'
+import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
   createDepartment,
   getDepartment,
@@ -11,8 +12,23 @@ import {
 export async function departmentController(app: FastifyInstance) {
   app.addHook('onRequest', verifyJwt)
 
-  app.post('/departments', createDepartment)
   app.get('/departments', paginateDepartments)
-  app.get('/departments/:id', getDepartment)
-  app.put('/departments/:id', updateDepartment)
+
+  app.post(
+    '/departments',
+    { onRequest: [verifyUserRole([UserRole.ADMIN, UserRole.DEV])] },
+    createDepartment,
+  )
+
+  app.get(
+    '/departments/:id',
+    { onRequest: [verifyUserRole([UserRole.ADMIN, UserRole.DEV])] },
+    getDepartment,
+  )
+
+  app.put(
+    '/departments/:id',
+    { onRequest: [verifyUserRole([UserRole.ADMIN, UserRole.DEV])] },
+    updateDepartment,
+  )
 }

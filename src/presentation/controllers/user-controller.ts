@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/presentation/middlewares/verify-jwt-middleware'
+import { UserRole } from '@/domain/enums'
+import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
   fetchOrdersHistory,
   getUser,
@@ -10,9 +11,24 @@ import {
 } from '@/presentation/routes/user'
 
 export async function userController(app: FastifyInstance) {
-  app.get('/users/:id/orders', { onRequest: [verifyJwt] }, fetchOrdersHistory)
-  app.get('/users/:id', { onRequest: [verifyJwt] }, getUser)
   app.post('/sign-in', signIn)
   app.post('/sign-up', signUp)
   app.patch('/refresh-token', refreshToken)
+
+  app.get(
+    '/users/orders-history',
+    { onRequest: [verifyJwt, verifyUserRole([UserRole.USER])] },
+    fetchOrdersHistory,
+  )
+
+  app.get(
+    '/users/:id',
+    {
+      onRequest: [
+        verifyJwt,
+        verifyUserRole([UserRole.ADMIN, UserRole.DEV, UserRole.USER]),
+      ],
+    },
+    getUser,
+  )
 }

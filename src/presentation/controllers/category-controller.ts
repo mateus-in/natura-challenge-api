@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/presentation/middlewares/verify-jwt-middleware'
+import { UserRole } from '@/domain/enums'
+import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
   createCategory,
   getCategory,
@@ -11,8 +12,23 @@ import {
 export async function categoryController(app: FastifyInstance) {
   app.addHook('onRequest', verifyJwt)
 
-  app.post('/categories', createCategory)
   app.get('/categories', paginateCategories)
-  app.get('/categories/:id', getCategory)
-  app.put('/categories/:id', updateCategory)
+
+  app.post(
+    '/categories',
+    { onRequest: verifyUserRole([UserRole.ADMIN, UserRole.DEV]) },
+    createCategory,
+  )
+
+  app.get(
+    '/categories/:id',
+    { onRequest: verifyUserRole([UserRole.ADMIN, UserRole.DEV]) },
+    getCategory,
+  )
+
+  app.put(
+    '/categories/:id',
+    { onRequest: verifyUserRole([UserRole.ADMIN, UserRole.DEV]) },
+    updateCategory,
+  )
 }
