@@ -21,6 +21,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fastify/cookie": "^9.4.0",
     "@fastify/jwt": "^8.0.1",
     "@prisma/client": "^5.19.1",
     "bcryptjs": "^2.4.3",
