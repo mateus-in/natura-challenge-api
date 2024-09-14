@@ -8,7 +8,6 @@ export async function updateItemQuantity(
   reply: FastifyReply,
 ) {
   const bodySchema = z.object({
-    userId: z.string(),
     cartId: z.string(),
     cartItemId: z.string(),
     quantity: z.number(),
@@ -18,8 +17,8 @@ export async function updateItemQuantity(
   const useCase = updateItemQuantityUseCaseDependencyInjection()
 
   const response = await useCase.execute({
+    userId: request.user.sub,
     cartId: body.cartId,
-    userId: body.userId,
     cartItemId: body.cartItemId,
     quantity: body.quantity,
   })

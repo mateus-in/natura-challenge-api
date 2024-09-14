@@ -12,10 +12,21 @@ export async function signIn(request: FastifyRequest, reply: FastifyReply) {
   const body = bodySchema.parse(request.body)
   const useCase = signInUseCaseDependencyInjection()
 
-  const response = await useCase.execute({
+  const { user } = await useCase.execute({
     email: body.email,
     password: body.password,
   })
 
-  return reply.status(200).send(response)
+  const token = await reply.jwtSign(
+    {},
+    {
+      sign: {
+        sub: user.id,
+      },
+    },
+  )
+
+  return reply.status(200).send({
+    token,
+  })
 }

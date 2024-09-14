@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import fastifyJwt from '@fastify/jwt'
 import { ZodError } from 'zod'
 
 import { env } from '@/env'
@@ -13,10 +14,8 @@ import {
 
 export const app = fastify()
 
-app.get('/', (_request, reply) => {
-  return reply.send({
-    message: 'natura-challenge-api',
-  })
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
 })
 
 // controllers

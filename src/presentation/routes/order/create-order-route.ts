@@ -8,7 +8,6 @@ export async function createOrder(
   reply: FastifyReply,
 ) {
   const bodySchema = z.object({
-    userId: z.string(),
     cartId: z.string(),
   })
 
@@ -16,7 +15,7 @@ export async function createOrder(
   const useCase = createOrderUseCaseDependencyInjection()
 
   const response = await useCase.execute({
-    userId: body.userId,
+    userId: request.user.sub,
     cartId: body.cartId,
   })
 

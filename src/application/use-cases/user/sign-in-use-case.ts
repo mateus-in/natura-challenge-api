@@ -11,10 +11,10 @@ export class SignInUseCase {
   async execute(params: SignInUseCaseParams) {
     const { email, password } = params
 
-    const token = await this.userService.signIn({ email, password })
+    const user = await this.userService.signIn({ email, password })
 
     return {
-      token,
+      user,
     }
   }
 }

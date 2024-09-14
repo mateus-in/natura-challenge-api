@@ -1,3 +1,5 @@
+import { compare, hash } from 'bcryptjs'
+
 import { User } from '@/domain/entities'
 import { UserRole } from '@/domain/enums'
 import { UserRepository } from '@/domain/repositories'
@@ -22,12 +24,15 @@ interface SignInParams {
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  private hashPassword(password: string): string {
-    return password
+  private async hashPassword(password: string): Promise<string> {
+    return await hash(password, 6)
   }
 
-  private verifyPassword(password: string, hash: string): boolean {
-    return password === hash
+  private async verifyPassword(
+    password: string,
+    passwordHash: string,
+  ): Promise<boolean> {
+    return await compare(password, passwordHash)
   }
 
   async createUser(params: CreateUserParams): Promise<User> {
@@ -37,7 +42,7 @@ export class UserService {
       new User({
         name,
         email,
-        password: this.hashPassword(password),
+        password: await this.hashPassword(password),
         role,
       }),
     )
@@ -51,16 +56,25 @@ export class UserService {
     return await this.userRepository.findById(userId)
   }
 
-  async signIn(params: SignInParams): Promise<string> {
+  async signIn(params: SignInParams): Promise<User> {
     const { email, password } = params
 
     const user = await this.userRepository.findByEmail(email)
 
-    if (!user || !this.verifyPassword(password, user.password)) {
+    if (!user) {
       throw new Error('Invalid credentials')
     }
 
-    return 'token_' + user.id
+    const doesPasswordMatches = await this.verifyPassword(
+      password,
+      user.password,
+    )
+
+    if (!doesPasswordMatches) {
+      throw new Error('Invalid credentials')
+    }
+
+    return user
   }
 
   async updateUser(id: string, params: UpdateUserParams): Promise<User> {

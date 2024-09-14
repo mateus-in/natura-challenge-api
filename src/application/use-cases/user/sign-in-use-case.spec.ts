@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs'
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { UserService } from '@/application/services'
@@ -22,22 +23,24 @@ describe('Sign In Use Case', () => {
     sut = new SignInUseCase(userService)
   })
 
-  it('deve retornar um token se o usuário for autenticado com sucesso', async () => {
+  it('deve retornar o usuário se as credenciais forem válidas', async () => {
+    const password = await hash('password123', 6)
+
     await inMemoryUserRepository.save(
       new User({
         name: 'John Doe',
         email: 'john.doe@example.com',
-        password: 'password123',
+        password,
         role: UserRole.USER,
       }),
     )
 
-    const { token } = await sut.execute({
+    const { user } = await sut.execute({
       email: 'john.doe@example.com',
       password: 'password123',
     })
 
-    expect(token).toBeTruthy()
+    expect(user).toBeTruthy()
   })
 
   it('deve gerar um erro se as credenciais estiverem erradas', async () => {

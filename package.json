@@ -21,7 +21,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fastify/jwt": "^8.0.1",
     "@prisma/client": "^5.19.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "16.4.5",
     "fastify": "4.28.1",
     "zod": "3.23.8"
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.0",
     "@rocketseat/eslint-config": "2.2.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "20.14.12",
     "eslint": "8.57.0",
     "prisma": "^5.19.1",

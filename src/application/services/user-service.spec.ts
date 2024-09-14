@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs'
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { UserService } from '@/application/services'
@@ -32,7 +33,7 @@ describe('User Service', () => {
   })
 
   describe('findUserByEmail', () => {
-    it('deve retornar um usuário pelo seu imail', async () => {
+    it('deve retornar um usuário pelo seu email', async () => {
       await inMemoryUserRepository.save(
         new User({
           name: 'User',
@@ -84,21 +85,23 @@ describe('User Service', () => {
 
   describe('signIn', () => {
     it('deve autenticar um usuário e retornar um token', async () => {
-      const user = await inMemoryUserRepository.save(
+      const password = await hash('hash', 10)
+
+      await inMemoryUserRepository.save(
         new User({
           name: 'User',
           email: 'user@test.com',
-          password: 'hash',
+          password,
           role: UserRole.USER,
         }),
       )
 
-      const token = await sut.signIn({
+      const user = await sut.signIn({
         email: 'user@test.com',
         password: 'hash',
       })
 
-      expect(token).toEqual('token_' + user.id)
+      expect(user).toBeTruthy()
     })
 
     it('deve lançar um erro se as credenciais forem inválidas', async () => {

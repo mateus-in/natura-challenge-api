@@ -5,7 +5,6 @@ import { clearCartUseCaseDependencyInjection } from '@/infrastructure/di'
 
 export async function clearCart(request: FastifyRequest, reply: FastifyReply) {
   const bodySchema = z.object({
-    userId: z.string(),
     cartId: z.string(),
   })
 
@@ -13,7 +12,7 @@ export async function clearCart(request: FastifyRequest, reply: FastifyReply) {
   const useCase = clearCartUseCaseDependencyInjection()
 
   const response = await useCase.execute({
-    userId: body.userId,
+    userId: request.user.sub,
     cartId: body.cartId,
   })
 
