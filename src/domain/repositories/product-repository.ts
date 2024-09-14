@@ -2,7 +2,7 @@ import { Category, Product } from '@/domain/entities'
 import { Paginate } from '@/domain/interfaces'
 
 export interface ProductRepository {
-  associateCategories(id: string, categoryId: string[]): Promise<Category[]>
+  associateCategories(id: string, categoryIds: string[]): Promise<Category[]>
   findById(id: string): Promise<Product | null>
   paginate(skip?: number, take?: number): Promise<Paginate<Product>>
   paginateByCategory(

@@ -7,11 +7,11 @@ export class InMemoryProductRepository implements ProductRepository {
 
   async associateCategories(
     id: string,
-    categoryId: string[],
+    categoryIds: string[],
   ): Promise<Category[]> {
     const categories: Category[] = []
 
-    categoryId.forEach(() => {
+    categoryIds.forEach(() => {
       categories.push({} as Category)
     })
 

@@ -37,6 +37,10 @@ export class OrderItem {
     return this.props.price
   }
 
+  get product() {
+    return this.props.product
+  }
+
   totalPrice(): number {
     return this.quantity * this.price
   }
