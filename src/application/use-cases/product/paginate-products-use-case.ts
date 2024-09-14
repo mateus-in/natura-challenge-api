@@ -2,23 +2,17 @@ import { ProductService } from '@/application/services'
 import { Product } from '@/domain/entities'
 import { Paginate } from '@/domain/interfaces'
 
-interface PaginateProductUseCaseParams {
+interface PaginateProductsUseCaseParams {
   departmentId?: string
   categoryId?: string
   skip?: number
   take?: number
 }
 
-interface PaginateProductUseCaseResponse {
-  products: Paginate<Product>
-}
-
-export class PaginateProductUseCase {
+export class PaginateProductsUseCase {
   constructor(private readonly productService: ProductService) {}
 
-  async execute(
-    params: PaginateProductUseCaseParams,
-  ): Promise<PaginateProductUseCaseResponse> {
+  async execute(params: PaginateProductsUseCaseParams) {
     const { skip, take, departmentId, categoryId } = params
 
     let products: Paginate<Product>
@@ -40,7 +34,21 @@ export class PaginateProductUseCase {
     }
 
     return {
-      products,
+      products: products.items.map((product) => {
+        return {
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          stockQuantity: product.stockQuantity,
+        }
+      }),
+      pagination: {
+        count: products.pagination.count,
+        limit: products.pagination.limit,
+        currentPage: products.pagination.currentPage,
+        pagesCount: products.pagination.pagesCount,
+      },
     }
   }
 }

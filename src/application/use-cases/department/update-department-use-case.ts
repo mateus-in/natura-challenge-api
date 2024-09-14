@@ -1,5 +1,4 @@
 import { DepartmentService } from '@/application/services'
-import { Department } from '@/domain/entities'
 
 interface UpdateDepartmentUseCaseParams {
   id: string
@@ -7,16 +6,10 @@ interface UpdateDepartmentUseCaseParams {
   description: string
 }
 
-interface UpdateDepartmentUseCaseResponse {
-  department: Department
-}
-
 export class UpdateDepartmentUseCase {
   constructor(private departmentService: DepartmentService) {}
 
-  async execute(
-    params: UpdateDepartmentUseCaseParams,
-  ): Promise<UpdateDepartmentUseCaseResponse> {
+  async execute(params: UpdateDepartmentUseCaseParams) {
     const { id, name, description } = params
 
     const department = await this.departmentService.updateDepartment(id, {
@@ -25,7 +18,9 @@ export class UpdateDepartmentUseCase {
     })
 
     return {
-      department,
+      id: department.id,
+      name: department.name,
+      description: department.description,
     }
   }
 }

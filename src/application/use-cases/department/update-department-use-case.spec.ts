@@ -32,13 +32,12 @@ describe('Update Department Use Case', () => {
       ),
     )
 
-    const { department } = await sut.execute({
+    const { name } = await sut.execute({
       id: 'department-id',
       name: 'Department updated',
       description: 'Department updated description',
     })
 
-    expect(department).toBeTruthy()
-    expect(department.name).toEqual('Department updated')
+    expect(name).toEqual('Department updated')
   })
 })

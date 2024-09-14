@@ -1,5 +1,4 @@
 import { CartService, ProductService } from '@/application/services'
-import { Cart } from '@/domain/entities'
 
 interface UpdateItemQuantityUseCaseParams {
   userId: string
@@ -8,19 +7,13 @@ interface UpdateItemQuantityUseCaseParams {
   quantity: number
 }
 
-interface UpdateItemQuantityUseCaseResponse {
-  cart: Cart
-}
-
 export class UpdateItemQuantityUseCase {
   constructor(
     private cartService: CartService,
     private productService: ProductService,
   ) {}
 
-  async execute(
-    params: UpdateItemQuantityUseCaseParams,
-  ): Promise<UpdateItemQuantityUseCaseResponse> {
+  async execute(params: UpdateItemQuantityUseCaseParams) {
     const { userId, cartId, cartItemId, quantity } = params
 
     const cart = await this.cartService.findCartById(cartId)
@@ -34,6 +27,10 @@ export class UpdateItemQuantityUseCase {
     }
 
     const cartItemToUpdate = cart.items.find((item) => item.id === cartItemId)
+
+    if (!cartItemToUpdate) {
+      throw new Error('Cart item not found')
+    }
 
     const updatedCart = await this.cartService.updateItemQuantity(
       cart.id,
@@ -49,7 +46,25 @@ export class UpdateItemQuantityUseCase {
     })
 
     return {
-      cart: updatedCart,
+      id: updatedCart.id,
+      user: {
+        id: updatedCart.user.id,
+        email: updatedCart.user.email,
+        name: updatedCart.user.name,
+      },
+      items: updatedCart.items.map((item) => {
+        return {
+          id: item.id,
+          product: {
+            id: item.product.id,
+            name: item.product.name,
+            description: item.product.description,
+            price: item.product.price,
+            stockQuantity: item.product.stockQuantity,
+          },
+          quantity: item.quantity,
+        }
+      }),
     }
   }
 }

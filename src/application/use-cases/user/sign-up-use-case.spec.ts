@@ -30,26 +30,24 @@ describe('Sign Up Use Case', () => {
   })
 
   it('deve criar um novo usuário quando o e-mail ainda não estiver registrado', async () => {
-    const { user } = await sut.execute({
+    const { id } = await sut.execute({
       name: 'User',
       email: 'user@example.com',
       password: 'password123',
     })
 
-    expect(user).toBeTruthy()
-    expect(inMemoryUserRepository.items[0].id).toEqual(user.id)
+    expect(inMemoryUserRepository.items[0].id).toEqual(id)
   })
 
   it('deve criar um carrinho para o usuário criado', async () => {
-    const { user } = await sut.execute({
+    const { id } = await sut.execute({
       name: 'User',
       email: 'user@example.com',
       password: 'password123',
     })
 
-    expect(user).toBeTruthy()
-    expect(inMemoryUserRepository.items[0].id).toEqual(user.id)
-    expect(inMemoryCartRepository.items[0].user.id).toEqual(user.id)
+    expect(inMemoryUserRepository.items[0].id).toEqual(id)
+    expect(inMemoryCartRepository.items[0].user.id).toEqual(id)
   })
 
   it('deve gerar um erro se o e-mail já estiver registrado', async () => {

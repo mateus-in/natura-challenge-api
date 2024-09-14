@@ -61,7 +61,7 @@ describe('Create Product Use Case', () => {
       ),
     )
 
-    const { product } = await sut.execute({
+    const { id, categories } = await sut.execute({
       name: 'Product',
       description: 'Product description',
       price: 99.0,
@@ -69,10 +69,8 @@ describe('Create Product Use Case', () => {
       categoryIds: ['category-1', 'category-2'],
     })
 
-    expect(product).toBeTruthy()
-    expect(product.id).toEqual(inMemoryProductRepository.items[0].id)
-    expect(product.categories).toBeTruthy()
-    expect(product.categories.length).toEqual(2)
+    expect(id).toEqual(inMemoryProductRepository.items[0].id)
+    expect(categories.length).toEqual(2)
   })
 
   it('deve lançar um erro se alguma das categorias não for encontrada', async () => {

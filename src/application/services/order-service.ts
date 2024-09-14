@@ -47,14 +47,6 @@ export class OrderService {
   ): Promise<Product> {
     const product = await this.productRepository.findById(productId)
 
-    if (!product) {
-      throw new Error('Product not found')
-    }
-
-    if (product.stockQuantity < requiredQuantity) {
-      throw new Error('Insufficient stock for product')
-    }
-
     product.update({
       name: product.name,
       description: product.description,

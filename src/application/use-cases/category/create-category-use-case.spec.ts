@@ -29,21 +29,23 @@ describe('Create Category Use Case', () => {
   })
 
   it('deve criar uma nova categoria dentro de um departamento existente', async () => {
-    const department = await inMemoryDepartmentRepository.save(
-      new Department({
-        name: 'Department',
-        description: 'Department description',
-      }),
+    await inMemoryDepartmentRepository.save(
+      new Department(
+        {
+          name: 'Department',
+          description: 'Department description',
+        },
+        'department-id',
+      ),
     )
 
-    const { category } = await sut.execute({
+    const { id, department } = await sut.execute({
       name: 'Category',
       description: 'Category description',
-      departmentId: department.id,
+      departmentId: 'department-id',
     })
 
-    expect(category).toBeTruthy()
-    expect(category.id).toEqual(inMemoryCategoryRepository.items[0].id)
+    expect(id).toEqual(inMemoryCategoryRepository.items[0].id)
     expect(department.id).toEqual(
       inMemoryCategoryRepository.items[0].department.id,
     )

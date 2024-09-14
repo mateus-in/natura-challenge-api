@@ -1,21 +1,14 @@
 import { DepartmentService } from '@/application/services'
-import { Department } from '@/domain/entities'
 
 interface CreateDepartmentUseCaseParams {
   name: string
   description: string
 }
 
-interface CreateDepartmentUseCaseResponse {
-  department: Department
-}
-
 export class CreateDepartmentUseCase {
   constructor(private departmentService: DepartmentService) {}
 
-  async execute(
-    params: CreateDepartmentUseCaseParams,
-  ): Promise<CreateDepartmentUseCaseResponse> {
+  async execute(params: CreateDepartmentUseCaseParams) {
     const { name, description } = params
 
     const department = await this.departmentService.createDepartment({
@@ -24,7 +17,9 @@ export class CreateDepartmentUseCase {
     })
 
     return {
-      department,
+      id: department.id,
+      name: department.name,
+      description: department.description,
     }
   }
 }

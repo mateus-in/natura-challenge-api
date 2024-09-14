@@ -5,14 +5,10 @@ interface SignInUseCaseParams {
   password: string
 }
 
-interface SignInUseCaseResponse {
-  token: string
-}
-
 export class SignInUseCase {
   constructor(private userService: UserService) {}
 
-  async execute(params: SignInUseCaseParams): Promise<SignInUseCaseResponse> {
+  async execute(params: SignInUseCaseParams) {
     const { email, password } = params
 
     const token = await this.userService.signIn({ email, password })

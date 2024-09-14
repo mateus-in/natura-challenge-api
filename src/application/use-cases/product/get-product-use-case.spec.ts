@@ -76,12 +76,11 @@ describe('Get Product Use Case', () => {
       'category-2',
     ])
 
-    const { product } = await sut.execute({
+    const { id } = await sut.execute({
       id: 'product-id',
     })
 
-    expect(product).toBeTruthy()
-    expect(product.id).toEqual(inMemoryProductRepository.items[0].id)
+    expect(id).toEqual(inMemoryProductRepository.items[0].id)
   })
 
   it('deve lançar um erro se o produto não for encontrado', async () => {

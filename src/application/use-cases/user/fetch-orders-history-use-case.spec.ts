@@ -72,7 +72,7 @@ describe('FetchOrdersHistoryUseCase', () => {
       }),
     )
 
-    const { orders } = await sut.execute({
+    const orders = await sut.execute({
       userId: user.id,
     })
 

@@ -1,26 +1,50 @@
 import { OrderService } from '@/application/services'
-import { Order } from '@/domain/entities'
-import { Paginate } from '@/domain/interfaces'
 
 interface PaginateOrdersUseCaseParams {
   skip?: number
   take?: number
 }
 
-interface PaginateOrdersUseCaseResponse {
-  orders: Paginate<Order>
-}
-
 export class PaginateOrdersUseCase {
   constructor(private readonly orderService: OrderService) {}
 
-  async execute(
-    params: PaginateOrdersUseCaseParams,
-  ): Promise<PaginateOrdersUseCaseResponse> {
+  async execute(params: PaginateOrdersUseCaseParams) {
     const { skip, take } = params
 
     const orders = await this.orderService.paginateOrders(skip, take)
 
-    return { orders }
+    return {
+      orders: orders.items.map((order) => {
+        return {
+          id: order.id,
+          user: {
+            id: order.user.id,
+            email: order.user.email,
+            name: order.user.name,
+          },
+          items: order.items.map((item) => {
+            return {
+              id: item.id,
+              product: {
+                id: item.product.id,
+                name: item.product.name,
+                description: item.product.description,
+                price: item.product.price,
+                stockQuantity: item.product.stockQuantity,
+              },
+              price: item.price,
+              quantity: item.quantity,
+            }
+          }),
+          price: order.price,
+        }
+      }),
+      pagination: {
+        count: orders.pagination.count,
+        limit: orders.pagination.limit,
+        currentPage: orders.pagination.currentPage,
+        pagesCount: orders.pagination.pagesCount,
+      },
+    }
   }
 }

@@ -21,12 +21,11 @@ describe('Create Department Use Case', () => {
   })
 
   it('deve criar um novo departamento', async () => {
-    const { department } = await sut.execute({
+    const { id } = await sut.execute({
       name: 'Department',
       description: 'Department description',
     })
 
-    expect(department).toBeTruthy()
-    expect(department.id).toEqual(inMemoryDepartmentRepository.items[0].id)
+    expect(id).toEqual(inMemoryDepartmentRepository.items[0].id)
   })
 })

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { ProductService } from '@/application/services'
-import { PaginateProductUseCase } from '@/application/use-cases/product'
+import { PaginateProductsUseCase } from '@/application/use-cases/product'
 import { Category, Department, Product } from '@/domain/entities'
 import {
   InMemoryCategoryRepository,
@@ -13,7 +13,7 @@ let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryDepartmentRepository: InMemoryDepartmentRepository
 let inMemoryProductRepository: InMemoryProductRepository
 let productService: ProductService
-let sut: PaginateProductUseCase
+let sut: PaginateProductsUseCase
 
 describe('Paginate Product Use Case', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('Paginate Product Use Case', () => {
     productService = new ProductService(inMemoryProductRepository)
 
     // paginate products use case
-    sut = new PaginateProductUseCase(productService)
+    sut = new PaginateProductsUseCase(productService)
   })
 
   it('deve paginar produtos por categoria quando categoryId é fornecido', async () => {
@@ -96,8 +96,7 @@ describe('Paginate Product Use Case', () => {
       categoryId: 'category-2',
     })
 
-    expect(products).toBeTruthy()
-    expect(products.items.length).toEqual(2)
+    expect(products.length).toEqual(2)
   })
 
   it('deve paginar produtos por departamento quando apenas departmentId é fornecido', async () => {
@@ -167,8 +166,7 @@ describe('Paginate Product Use Case', () => {
       departmentId: department.id,
     })
 
-    expect(products).toBeTruthy()
-    expect(products.items.length).toEqual(2)
+    expect(products.length).toEqual(2)
   })
 
   it('deve paginar todos os produtos quando nem departmentId nem categoryId são fornecidos', async () => {
@@ -236,7 +234,6 @@ describe('Paginate Product Use Case', () => {
 
     const { products } = await sut.execute({})
 
-    expect(products).toBeTruthy()
-    expect(products.items.length).toEqual(2)
+    expect(products.length).toEqual(2)
   })
 })

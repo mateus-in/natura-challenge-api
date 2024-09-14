@@ -34,7 +34,7 @@ describe('Update Product Use Case', () => {
       ),
     )
 
-    const { product } = await sut.execute({
+    const { name } = await sut.execute({
       id: 'product-1',
       name: 'Updated Product',
       description: 'Updated product description',
@@ -42,8 +42,7 @@ describe('Update Product Use Case', () => {
       stockQuantity: 5,
     })
 
-    expect(product).toBeTruthy()
-    expect(product.name).toEqual('Updated Product')
+    expect(name).toEqual('Updated Product')
   })
 
   it('deve lançar um erro quando o produto não for encontrado', async () => {

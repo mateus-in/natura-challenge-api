@@ -69,15 +69,14 @@ describe('Update Item Quantity Use Case', () => {
       ),
     )
 
-    const { cart } = await sut.execute({
+    const { items } = await sut.execute({
       userId: user.id,
       cartId: 'cart-id',
       cartItemId: 'cart-item-id',
       quantity: 3,
     })
 
-    expect(cart).toBeTruthy()
-    expect(cart.items[0].quantity).toEqual(3)
+    expect(items[0].quantity).toEqual(3)
     expect(inMemoryProductRepository.items[0].stockQuantity).toEqual(7)
   })
 
@@ -137,5 +136,52 @@ describe('Update Item Quantity Use Case', () => {
         quantity: 1,
       }),
     ).rejects.toThrowError('Unauthorized user')
+  })
+
+  it('deve lançar um erro se o item não existir no carrinho', async () => {
+    const user = await inMemoryUserRepository.save(
+      new User({
+        name: 'User',
+        email: 'user@example.com',
+        password: 'password',
+        role: UserRole.USER,
+      }),
+    )
+
+    const product = await inMemoryProductRepository.save(
+      new Product({
+        name: 'Product',
+        description: 'Product description',
+        price: 100,
+        stockQuantity: 10,
+      }),
+    )
+
+    await inMemoryCartRepository.save(
+      new Cart(
+        {
+          user,
+          items: [
+            new CartItem(
+              {
+                product,
+                quantity: 3,
+              },
+              'cart-item-id',
+            ),
+          ],
+        },
+        'cart-id',
+      ),
+    )
+
+    await expect(
+      sut.execute({
+        userId: user.id,
+        cartId: 'cart-id',
+        cartItemId: 'cart-item-1',
+        quantity: 3,
+      }),
+    ).rejects.toThrowError('Cart item not found')
   })
 })

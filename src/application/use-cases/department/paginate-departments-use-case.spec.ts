@@ -43,12 +43,12 @@ describe('Paginate Departments Use Case', () => {
       }),
     )
 
-    const { departments } = await sut.execute({})
+    const { departments, pagination } = await sut.execute({})
 
-    expect(departments.items.length).toEqual(3)
-    expect(departments.pagination.count).toEqual(3)
-    expect(departments.pagination.limit).toEqual(3)
-    expect(departments.pagination.currentPage).toEqual(1)
-    expect(departments.pagination.pagesCount).toEqual(1)
+    expect(departments.length).toEqual(3)
+    expect(pagination.count).toEqual(3)
+    expect(pagination.limit).toEqual(3)
+    expect(pagination.currentPage).toEqual(1)
+    expect(pagination.pagesCount).toEqual(1)
   })
 })

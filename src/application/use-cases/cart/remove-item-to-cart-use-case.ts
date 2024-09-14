@@ -1,14 +1,9 @@
 import { CartService, ProductService } from '@/application/services'
-import { Cart } from '@/domain/entities'
 
 interface RemoveItemToCartUseCaseParams {
   userId: string
   cartId: string
   cartItemId: string
-}
-
-interface RemoveItemToCartUseCaseResponse {
-  cart: Cart
 }
 
 export class RemoveItemToCartUseCase {
@@ -17,9 +12,7 @@ export class RemoveItemToCartUseCase {
     private productService: ProductService,
   ) {}
 
-  async execute(
-    params: RemoveItemToCartUseCaseParams,
-  ): Promise<RemoveItemToCartUseCaseResponse> {
+  async execute(params: RemoveItemToCartUseCaseParams) {
     const { userId, cartId, cartItemId } = params
 
     const cart = await this.cartService.findCartById(cartId)
@@ -34,6 +27,10 @@ export class RemoveItemToCartUseCase {
 
     const cartItem = cart.items.find((item) => item.id === cartItemId)
 
+    if (!cartItem) {
+      throw new Error('Cart item not found')
+    }
+
     const updatedCart = await this.cartService.removeItemToCart(
       cart.id,
       cartItemId,
@@ -47,7 +44,25 @@ export class RemoveItemToCartUseCase {
     })
 
     return {
-      cart: updatedCart,
+      id: updatedCart.id,
+      user: {
+        id: updatedCart.user.id,
+        email: updatedCart.user.email,
+        name: updatedCart.user.name,
+      },
+      items: updatedCart.items.map((item) => {
+        return {
+          id: item.id,
+          product: {
+            id: item.product.id,
+            name: item.product.name,
+            description: item.product.description,
+            price: item.product.price,
+            stockQuantity: item.product.stockQuantity,
+          },
+          quantity: item.quantity,
+        }
+      }),
     }
   }
 }

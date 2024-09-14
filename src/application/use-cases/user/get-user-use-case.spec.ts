@@ -35,12 +35,11 @@ describe('Get User Use Case', () => {
       ),
     )
 
-    const { user } = await sut.execute({
+    const { id } = await sut.execute({
       id: 'user-id',
     })
 
-    expect(user).toBeTruthy()
-    expect(user.id).toBe('user-id')
+    expect(id).toBe('user-id')
   })
 
   it('deve lençar uma exceção se o usuário não for encontrado', async () => {

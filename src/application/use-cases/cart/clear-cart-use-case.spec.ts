@@ -69,13 +69,12 @@ describe('Clear Cart Use Case', () => {
       ),
     )
 
-    const { cart } = await sut.execute({
+    const { items } = await sut.execute({
       userId: user.id,
       cartId: 'cart-id',
     })
 
-    expect(cart).toBeTruthy()
-    expect(cart.items.length).toEqual(0)
+    expect(items.length).toEqual(0)
     expect(inMemoryProductRepository.items[0].stockQuantity).toEqual(10)
   })
 

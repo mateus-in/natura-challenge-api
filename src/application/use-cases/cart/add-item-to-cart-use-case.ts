@@ -1,14 +1,10 @@
 import { CartService, ProductService } from '@/application/services'
-import { Cart } from '@/domain/entities'
 
 interface AddItemToCartUseCaseParams {
+  userId: string
   cartId: string
   productId: string
   quantity: number
-}
-
-interface AddItemToCartUseCaseResponse {
-  cart: Cart
 }
 
 export class AddItemToCartUseCase {
@@ -17,15 +13,25 @@ export class AddItemToCartUseCase {
     private readonly productService: ProductService,
   ) {}
 
-  async execute(
-    params: AddItemToCartUseCaseParams,
-  ): Promise<AddItemToCartUseCaseResponse> {
-    const { cartId, productId, quantity } = params
+  async execute(params: AddItemToCartUseCaseParams) {
+    const { userId, cartId, productId, quantity } = params
 
     const cart = await this.cartService.findCartById(cartId)
 
     if (!cart) {
       throw new Error('Cart not found')
+    }
+
+    if (cart.user.id !== userId) {
+      throw new Error('Unauthorized user')
+    }
+
+    const itemAlreadyInCart = cart.items.find(
+      (item) => item.product.id === productId,
+    )
+
+    if (itemAlreadyInCart) {
+      throw new Error('Item already in cart')
     }
 
     const product = await this.productService.findProductById(productId)
@@ -48,7 +54,25 @@ export class AddItemToCartUseCase {
     })
 
     return {
-      cart: updatedCart,
+      id: updatedCart.id,
+      user: {
+        id: updatedCart.user.id,
+        email: updatedCart.user.email,
+        name: updatedCart.user.name,
+      },
+      items: updatedCart.items.map((item) => {
+        return {
+          id: item.id,
+          product: {
+            id: item.product.id,
+            name: item.product.name,
+            description: item.product.description,
+            price: item.product.price,
+            stockQuantity: item.product.stockQuantity,
+          },
+          quantity: item.quantity,
+        }
+      }),
     }
   }
 }

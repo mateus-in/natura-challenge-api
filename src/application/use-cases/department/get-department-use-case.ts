@@ -1,17 +1,7 @@
 import { CategoryService, DepartmentService } from '@/application/services'
-import { Category } from '@/domain/entities'
 
 interface GetDepartmentUseCaseParams {
   id: string
-}
-
-interface GetDepartmentUseCaseResponse {
-  department: {
-    id: string
-    name: string
-    description: string
-    categories: Category[]
-  }
 }
 
 export class GetDepartmentUseCase {
@@ -20,9 +10,7 @@ export class GetDepartmentUseCase {
     private departmentService: DepartmentService,
   ) {}
 
-  async execute(
-    params: GetDepartmentUseCaseParams,
-  ): Promise<GetDepartmentUseCaseResponse> {
+  async execute(params: GetDepartmentUseCaseParams) {
     const { id } = params
 
     const department = await this.departmentService.findDepartmentById(id)
@@ -35,12 +23,16 @@ export class GetDepartmentUseCase {
       await this.categoryService.paginateCategoriesByDepartment(department.id)
 
     return {
-      department: {
-        id: department.id,
-        name: department.name,
-        description: department.description,
-        categories: categories.items,
-      },
+      id: department.id,
+      name: department.name,
+      description: department.description,
+      categories: categories.items.map((category) => {
+        return {
+          id: category.id,
+          name: category.name,
+          description: category.description,
+        }
+      }),
     }
   }
 }

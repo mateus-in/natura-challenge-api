@@ -47,16 +47,14 @@ describe('Update Category Use Case', () => {
       ),
     )
 
-    const { category } = await sut.execute({
+    const { name } = await sut.execute({
       id: 'category-id',
       name: 'Category updated',
       description: 'Category updated description',
       departmentId: department.id,
     })
 
-    expect(category).toBeTruthy()
-    expect(category.id).toEqual(inMemoryCategoryRepository.items[0].id)
-    expect(category.name).toEqual('Category updated')
+    expect(name).toEqual('Category updated')
   })
 
   it('deve lançar um erro se o departamento não for encontrado', async () => {

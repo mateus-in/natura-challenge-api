@@ -75,14 +75,12 @@ describe('Create Order Use Case', () => {
       ),
     )
 
-    const { order } = await sut.execute({
+    const { items } = await sut.execute({
       userId: user.id,
       cartId: 'cart-id',
     })
 
-    expect(order).toBeTruthy()
-    expect(order.user.id).toEqual(user.id)
-    expect(order.items.length).toEqual(1)
+    expect(items.length).toEqual(1)
   })
 
   it('deve lançar um erro se o usuário não for encontrado', async () => {

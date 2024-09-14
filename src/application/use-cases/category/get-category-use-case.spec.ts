@@ -45,12 +45,11 @@ describe('Get Category Use Case', () => {
       ),
     )
 
-    const { category } = await sut.execute({
+    const { id } = await sut.execute({
       id: 'category-id',
     })
 
-    expect(category).toBeTruthy()
-    expect(category.id).toEqual(inMemoryCategoryRepository.items[0].id)
+    expect(id).toEqual(inMemoryCategoryRepository.items[0].id)
   })
 
   it('deve lançar um erro se a categoria não for encontrada', async () => {

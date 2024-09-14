@@ -1,18 +1,13 @@
 import { UserService } from '@/application/services'
-import { User } from '@/domain/entities'
 
 interface GetUserUseCaseParams {
   id: string
 }
 
-interface GetUserUseCaseResponse {
-  user: User
-}
-
 export class GetUserUseCase {
   constructor(private userService: UserService) {}
 
-  async execute(params: GetUserUseCaseParams): Promise<GetUserUseCaseResponse> {
+  async execute(params: GetUserUseCaseParams) {
     const { id } = params
 
     const user = await this.userService.findUserById(id)
@@ -22,7 +17,10 @@ export class GetUserUseCase {
     }
 
     return {
-      user,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
     }
   }
 }

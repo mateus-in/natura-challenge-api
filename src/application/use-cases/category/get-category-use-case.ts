@@ -1,20 +1,13 @@
 import { CategoryService } from '@/application/services'
-import { Category } from '@/domain/entities'
 
 interface GetCategoryUseCaseParams {
   id: string
 }
 
-interface GetCategoryUseCaseResponse {
-  category: Category
-}
-
 export class GetCategoryUseCase {
   constructor(private categoryService: CategoryService) {}
 
-  async execute(
-    params: GetCategoryUseCaseParams,
-  ): Promise<GetCategoryUseCaseResponse> {
+  async execute(params: GetCategoryUseCaseParams) {
     const { id } = params
 
     const category = await this.categoryService.findCategoryById(id)
@@ -24,7 +17,13 @@ export class GetCategoryUseCase {
     }
 
     return {
-      category,
+      id: category.id,
+      name: category.name,
+      description: category.description,
+      department: {
+        id: category.department.id,
+        name: category.department.name,
+      },
     }
   }
 }

@@ -1,20 +1,13 @@
 import { ProductService } from '@/application/services'
-import { Product } from '@/domain/entities'
 
 interface GetProductUseCaseParams {
   id: string
 }
 
-interface GetProductUseCaseResponse {
-  product: Product
-}
-
 export class GetProductUseCase {
   constructor(private productService: ProductService) {}
 
-  async execute(
-    params: GetProductUseCaseParams,
-  ): Promise<GetProductUseCaseResponse> {
+  async execute(params: GetProductUseCaseParams) {
     const { id } = params
 
     const product = await this.productService.findProductById(id)
@@ -24,7 +17,11 @@ export class GetProductUseCase {
     }
 
     return {
-      product,
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      stockQuantity: product.stockQuantity,
     }
   }
 }

@@ -1,5 +1,4 @@
 import { CartService, UserService } from '@/application/services'
-import { User } from '@/domain/entities'
 import { UserRole } from '@/domain/enums'
 
 interface SignUpUseCaseParams {
@@ -8,17 +7,13 @@ interface SignUpUseCaseParams {
   password: string
 }
 
-interface SignUpUseCaseResponse {
-  user: User
-}
-
 export class SignUpUseCase {
   constructor(
     private cartService: CartService,
     private userService: UserService,
   ) {}
 
-  async execute(params: SignUpUseCaseParams): Promise<SignUpUseCaseResponse> {
+  async execute(params: SignUpUseCaseParams) {
     const { name, email, password } = params
 
     const userAlteradyExists = await this.userService.findUserByEmail(email)
@@ -37,7 +32,10 @@ export class SignUpUseCase {
     await this.cartService.createCart(user)
 
     return {
-      user,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
     }
   }
 }

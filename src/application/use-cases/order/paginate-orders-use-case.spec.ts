@@ -73,12 +73,12 @@ describe('Create Order Use Case', () => {
       ),
     )
 
-    const { orders } = await sut.execute({})
+    const { orders, pagination } = await sut.execute({})
 
-    expect(orders.items.length).toEqual(1)
-    expect(orders.pagination.count).toEqual(1)
-    expect(orders.pagination.limit).toEqual(1)
-    expect(orders.pagination.currentPage).toEqual(1)
-    expect(orders.pagination.pagesCount).toEqual(1)
+    expect(orders.length).toEqual(1)
+    expect(pagination.count).toEqual(1)
+    expect(pagination.limit).toEqual(1)
+    expect(pagination.currentPage).toEqual(1)
+    expect(pagination.pagesCount).toEqual(1)
   })
 })

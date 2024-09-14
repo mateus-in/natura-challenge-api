@@ -44,12 +44,12 @@ describe('Get Department Use Case', () => {
       }),
     )
 
-    const { department } = await sut.execute({
+    const { id, categories } = await sut.execute({
       id: createdDepartment.id,
     })
 
-    expect(department.id).toEqual(createdDepartment.id)
-    expect(department.categories.length).toEqual(1)
+    expect(id).toEqual(createdDepartment.id)
+    expect(categories.length).toEqual(1)
   })
 
   it('deve lançar um erro se o departamento não for encontrado', async () => {

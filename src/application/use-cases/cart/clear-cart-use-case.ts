@@ -1,13 +1,8 @@
 import { CartService, ProductService } from '@/application/services'
-import { Cart } from '@/domain/entities'
 
 interface ClearCartUseCaseParams {
   userId: string
   cartId: string
-}
-
-interface ClearCartUseCaseResponse {
-  cart: Cart
 }
 
 export class ClearCartUseCase {
@@ -16,9 +11,7 @@ export class ClearCartUseCase {
     private productService: ProductService,
   ) {}
 
-  async execute(
-    params: ClearCartUseCaseParams,
-  ): Promise<ClearCartUseCaseResponse> {
+  async execute(params: ClearCartUseCaseParams) {
     const { cartId, userId } = params
 
     const cart = await this.cartService.findCartById(cartId)
@@ -43,7 +36,25 @@ export class ClearCartUseCase {
     })
 
     return {
-      cart: updatedCart,
+      id: updatedCart.id,
+      user: {
+        id: updatedCart.user.id,
+        email: updatedCart.user.email,
+        name: updatedCart.user.name,
+      },
+      items: updatedCart.items.map((item) => {
+        return {
+          id: item.id,
+          product: {
+            id: item.product.id,
+            name: item.product.name,
+            description: item.product.description,
+            price: item.product.price,
+            stockQuantity: item.product.stockQuantity,
+          },
+          quantity: item.quantity,
+        }
+      }),
     }
   }
 }

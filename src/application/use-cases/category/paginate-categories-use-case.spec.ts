@@ -58,12 +58,12 @@ describe('Paginate Categories Use Case', () => {
       }),
     )
 
-    const { categories } = await sut.execute({})
+    const { categories, pagination } = await sut.execute({})
 
-    expect(categories.items.length).toEqual(3)
-    expect(categories.pagination.count).toEqual(3)
-    expect(categories.pagination.limit).toEqual(3)
-    expect(categories.pagination.currentPage).toEqual(1)
-    expect(categories.pagination.pagesCount).toEqual(1)
+    expect(categories.length).toEqual(3)
+    expect(pagination.count).toEqual(3)
+    expect(pagination.limit).toEqual(3)
+    expect(pagination.currentPage).toEqual(1)
+    expect(pagination.pagesCount).toEqual(1)
   })
 })

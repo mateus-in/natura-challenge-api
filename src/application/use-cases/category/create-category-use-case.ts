@@ -1,14 +1,9 @@
 import { CategoryService, DepartmentService } from '@/application/services'
-import { Category } from '@/domain/entities'
 
 interface CreateCategoryUseCaseParams {
   name: string
   description: string
   departmentId: string
-}
-
-interface CreateCategoryUseCaseResponse {
-  category: Category
 }
 
 export class CreateCategoryUseCase {
@@ -17,9 +12,7 @@ export class CreateCategoryUseCase {
     private departmentService: DepartmentService,
   ) {}
 
-  async execute(
-    params: CreateCategoryUseCaseParams,
-  ): Promise<CreateCategoryUseCaseResponse> {
+  async execute(params: CreateCategoryUseCaseParams) {
     const { name, description, departmentId } = params
 
     const department =
@@ -36,7 +29,13 @@ export class CreateCategoryUseCase {
     })
 
     return {
-      category,
+      id: category.id,
+      name: category.name,
+      description: category.description,
+      department: {
+        id: category.department.id,
+        name: category.department.name,
+      },
     }
   }
 }
