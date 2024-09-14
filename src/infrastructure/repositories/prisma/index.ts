@@ -1,0 +1,6 @@
+export * from './prisma-cart-repository'
+export * from './prisma-category-repository'
+export * from './prisma-department-repository'
+export * from './prisma-order-repository'
+export * from './prisma-product-repository'
+export * from './prisma-user-repository'
