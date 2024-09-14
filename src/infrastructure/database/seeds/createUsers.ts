@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+import { hash } from 'bcryptjs'
 import { randomUUID } from 'node:crypto'
 
 export async function createUsers(prisma: PrismaClient) {
@@ -9,7 +10,7 @@ export async function createUsers(prisma: PrismaClient) {
         id: randomUUID(),
         email: `user${i + 1}@naturachallenge.com.br`,
         name: faker.person.firstName(),
-        password_hash: 'naturachallengepass',
+        password_hash: await hash('naturachallengepass', 6),
       },
     })
 
