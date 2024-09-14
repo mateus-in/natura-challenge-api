@@ -2,6 +2,14 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 
 import { env } from '@/env'
+import {
+  cartController,
+  categoryController,
+  departmentController,
+  orderController,
+  productController,
+  userController,
+} from '@/presentation/controllers'
 
 export const app = fastify()
 
@@ -10,6 +18,14 @@ app.get('/', (_request, reply) => {
     message: 'natura-challenge-api',
   })
 })
+
+// controllers
+app.register(cartController)
+app.register(categoryController)
+app.register(departmentController)
+app.register(orderController)
+app.register(productController)
+app.register(userController)
 
 app.setErrorHandler((error, _request, reply) => {
   if (env.NODE_ENV !== 'production') {
