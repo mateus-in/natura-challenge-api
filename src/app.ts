@@ -1,5 +1,7 @@
 import fastifyCookie from '@fastify/cookie'
 import fastifyJwt from '@fastify/jwt'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
 import { Prisma } from '@prisma/client'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
@@ -13,8 +15,12 @@ import {
   productController,
   userController,
 } from '@/presentation/controllers'
+import { swaggerOptions, swaggerUiSchema } from '@/docs'
 
 export const app = fastify()
+
+app.register(fastifySwagger, swaggerOptions)
+app.register(fastifySwaggerUi, swaggerUiSchema)
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,

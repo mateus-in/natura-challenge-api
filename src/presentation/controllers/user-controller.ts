@@ -1,5 +1,13 @@
 import { FastifyInstance } from 'fastify'
 
+import {
+  fetchOrdersHistoryUserDocs,
+  getAuthenticatedUserDocs,
+  getUserDocs,
+  refreshTokenDocs,
+  signInDocs,
+  signUpDocs,
+} from '@/docs/user'
 import { UserRole } from '@/domain/enums'
 import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
@@ -12,29 +20,33 @@ import {
 } from '@/presentation/routes/user'
 
 export async function userController(app: FastifyInstance) {
-  app.post('/sign-in', signIn)
-  app.post('/sign-up', signUp)
-  app.patch('/refresh-token', refreshToken)
+  app.post('/sign-in', { schema: signInDocs }, signIn)
+  app.post('/sign-up', { schema: signUpDocs }, signUp)
+  app.patch('/refresh-token', { schema: refreshTokenDocs }, refreshToken)
 
   app.get(
     '/me',
-    { onRequest: [verifyJwt, verifyUserRole([UserRole.USER])] },
+    {
+      schema: getAuthenticatedUserDocs,
+      onRequest: [verifyJwt, verifyUserRole([UserRole.USER])],
+    },
     getAuthenticatedUser,
   )
 
   app.get(
     '/users/orders-history',
-    { onRequest: [verifyJwt, verifyUserRole([UserRole.USER])] },
+    {
+      schema: fetchOrdersHistoryUserDocs,
+      onRequest: [verifyJwt, verifyUserRole([UserRole.USER])],
+    },
     fetchOrdersHistory,
   )
 
   app.get(
     '/users/:id',
     {
-      onRequest: [
-        verifyJwt,
-        verifyUserRole([UserRole.ADMIN, UserRole.DEV, UserRole.USER]),
-      ],
+      schema: getUserDocs,
+      onRequest: [verifyJwt, verifyUserRole([UserRole.ADMIN, UserRole.DEV])],
     },
     getUser,
   )

@@ -1,5 +1,11 @@
 import { FastifyInstance } from 'fastify'
 
+import {
+  addItemToCartDocs,
+  clearCartDocs,
+  removeItemToCartDocs,
+  updateItemQuantityDocs,
+} from '@/docs/cart'
 import { UserRole } from '@/domain/enums'
 import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
@@ -13,8 +19,18 @@ export async function cartController(app: FastifyInstance) {
   app.addHook('onRequest', verifyJwt)
   app.addHook('onRequest', verifyUserRole([UserRole.USER]))
 
-  app.post('/carts/add-item', addItemToCart)
-  app.put('/carts/clear', clearCart)
-  app.put('/carts/remove-item', removeItemToCart)
-  app.put('/carts/update-item-quantity', updateItemQuantity)
+  app.post('/carts/add-item', { schema: addItemToCartDocs }, addItemToCart)
+  app.put('/carts/clear', { schema: clearCartDocs }, clearCart)
+
+  app.put(
+    '/carts/remove-item',
+    { schema: removeItemToCartDocs },
+    removeItemToCart,
+  )
+
+  app.put(
+    '/carts/update-item-quantity',
+    { schema: updateItemQuantityDocs },
+    updateItemQuantity,
+  )
 }
