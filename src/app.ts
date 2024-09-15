@@ -1,4 +1,5 @@
 import fastifyCookie from '@fastify/cookie'
+import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
@@ -21,6 +22,11 @@ export const app = fastify()
 
 app.register(fastifySwagger, swaggerOptions)
 app.register(fastifySwaggerUi, swaggerUiSchema)
+
+app.register(fastifyCors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+})
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
