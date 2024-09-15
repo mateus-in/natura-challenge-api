@@ -3,7 +3,6 @@ import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
-import { Prisma } from '@prisma/client'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 
@@ -55,18 +54,6 @@ app.setErrorHandler((error, _request, reply) => {
     return reply.status(400).send({
       message: 'Validation error',
       error: error.format(),
-    })
-  }
-
-  if (
-    error instanceof Prisma.PrismaClientKnownRequestError ||
-    error instanceof Prisma.PrismaClientUnknownRequestError ||
-    error instanceof Prisma.PrismaClientInitializationError ||
-    error instanceof Prisma.PrismaClientRustPanicError
-  ) {
-    return reply.status(500).send({
-      message: 'Database request error',
-      error: error.message,
     })
   }
 
