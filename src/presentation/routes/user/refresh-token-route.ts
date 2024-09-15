@@ -17,6 +17,7 @@ export async function refreshToken(
     {
       sign: {
         sub: request.user.sub,
+        expiresIn: '15m',
       },
     },
   )

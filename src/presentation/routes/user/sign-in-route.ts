@@ -24,6 +24,7 @@ export async function signIn(request: FastifyRequest, reply: FastifyReply) {
     {
       sign: {
         sub: user.id,
+        expiresIn: '15m',
       },
     },
   )
