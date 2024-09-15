@@ -42,6 +42,10 @@ export class PrismaProductRepository implements ProductRepository {
       },
     })
 
+    if (!product) {
+      return null
+    }
+
     return ProductMapper.toDomain(product)
   }
 
