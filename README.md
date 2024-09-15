@@ -18,9 +18,11 @@ A estrutura de pastas do projeto segue os princípios da Clean Architecture para
 
 ```plaintext
 src/
+├── @types                   # Definição de tipos
 ├── application/
 │   ├── services/            # Serviços da aplicação que contêm lógica de negócio adicional
 │   └── use-cases/           # Casos de uso que representam as funcionalidades principais
+├── docs/                    # Objetos de schema do swagger
 ├── domain/
 │   ├── entities/            # Entidades que representam os objetos do domínio
 │   ├── enums/               # Enums usados para definir constantes e tipos
@@ -34,6 +36,7 @@ src/
 │       └── prisma/          # Repositórios usando Prisma ORM
 ├── presentation/
 │   ├── controllers/         # Controladores que lidam com as requisições HTTP
+│   ├── middlwares/          # Middlewares para validações do fluxo de autenticação e autorização
 │   └── routes/              # Definições das rotas da API
 ├── shared/
 │   ├── mappers/             # Mapeadores para converter entidades em DTOs e vice-versa
