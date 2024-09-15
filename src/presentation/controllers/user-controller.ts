@@ -4,6 +4,7 @@ import { UserRole } from '@/domain/enums'
 import { verifyJwt, verifyUserRole } from '@/presentation/middlewares'
 import {
   fetchOrdersHistory,
+  getAuthenticatedUser,
   getUser,
   refreshToken,
   signIn,
@@ -14,6 +15,12 @@ export async function userController(app: FastifyInstance) {
   app.post('/sign-in', signIn)
   app.post('/sign-up', signUp)
   app.patch('/refresh-token', refreshToken)
+
+  app.get(
+    '/me',
+    { onRequest: [verifyJwt, verifyUserRole([UserRole.USER])] },
+    getAuthenticatedUser,
+  )
 
   app.get(
     '/users/orders-history',

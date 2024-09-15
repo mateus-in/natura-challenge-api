@@ -1,6 +1,7 @@
 import { CartService, OrderService, UserService } from '@/application/services'
 import {
   FetchOrdersHistoryUseCase,
+  GetAuthenticatedUserUseCase,
   GetUserUseCase,
   SignInUseCase,
   SignUpUseCase,
@@ -33,6 +34,10 @@ export function fetchOrdersHistoryUseCaseDependencyInjection() {
 
 export function getUserUseCaseDependencyInjection() {
   return new GetUserUseCase(userService)
+}
+
+export function getAuthenticatedUserUseCaseDependencyInjection() {
+  return new GetAuthenticatedUserUseCase(cartService, userService)
 }
 
 export function signInUseCaseDependencyInjection() {

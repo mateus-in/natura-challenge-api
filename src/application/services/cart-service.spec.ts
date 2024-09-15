@@ -180,6 +180,35 @@ describe('Cart Service', () => {
     })
   })
 
+  describe('findCartByUserId', () => {
+    it('deve retornar um carrinho pelo id do usuário', async () => {
+      const user = new User({
+        name: 'User',
+        email: 'user@example.com',
+        password: 'password',
+        role: UserRole.USER,
+      })
+
+      await inMemoryCartRepository.save(
+        new Cart({
+          user,
+          items: [],
+        }),
+      )
+
+      const cart = await sut.findCartByUserId(user.id)
+
+      expect(cart).toBeTruthy()
+      expect(cart.user.id).toEqual(user.id)
+    })
+
+    it('deve retornar null se o carrinho não for encontrado', async () => {
+      const cart = await sut.findCartById('cart-id')
+
+      expect(cart).toBeNull()
+    })
+  })
+
   describe('removeItemToCart', () => {
     it('deve remover um item do carrinho', async () => {
       const user = await inMemoryUserRepository.save(

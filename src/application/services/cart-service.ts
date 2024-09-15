@@ -42,6 +42,10 @@ export class CartService {
     return await this.cartRepository.findById(id)
   }
 
+  async findCartByUserId(userId: string): Promise<Cart | null> {
+    return await this.cartRepository.findByUser(userId)
+  }
+
   async removeItemToCart(cartId: string, cartItemId: string): Promise<Cart> {
     return await this.cartRepository.removeItem(cartId, cartItemId)
   }
