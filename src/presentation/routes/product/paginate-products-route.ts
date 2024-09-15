@@ -14,6 +14,8 @@ export async function paginateProducts(
     take: z
       .string()
       .transform((take) => (take !== undefined ? Number(take) : undefined)),
+    categoryId: z.string().optional(),
+    departmentId: z.string().optional(),
   })
 
   const query = querySchema.parse(request.query)
@@ -22,6 +24,8 @@ export async function paginateProducts(
   const response = await useCase.execute({
     skip: query.skip,
     take: query.take,
+    categoryId: query.categoryId,
+    departmentId: query.departmentId,
   })
 
   return reply.status(200).send(response)
