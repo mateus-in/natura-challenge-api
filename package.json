@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsup src/server.ts --out-dir build",
     "lint": "eslint src --ext .ts --fix",
+    "postinstall": "npx prisma generate --schema=src/infrastructure/database/schema.prisma",
     "prisma:generate": "npx prisma generate --schema=src/infrastructure/database/schema.prisma",
     "prisma:migrate:dev": "npx prisma migrate dev --schema=src/infrastructure/database/schema.prisma",
     "prisma:migrate:reset": "npx prisma migrate reset --schema=src/infrastructure/database/schema.prisma",
