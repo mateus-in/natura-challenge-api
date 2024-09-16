@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: natura
+      POSTGRES_PASSWORD: natura
+      POSTGRES_DB: natura_challenge
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local
