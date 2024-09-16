@@ -1,6 +1,6 @@
 # 📦 Teste Técnico Natura&Co (Desenvolvedor Sênior)
 
-Este projeto é uma plataforma de e-commerce. O sistema é composto por um backend robusto, desenvolvido com Node.js e Fastify. A aplicação permite a gestão completa de produtos, categorias, departamentos, usuários, carrinhos de compras, pedidos, e oferece funcionalidades adicionais como busca. O objetivo deste projeto é demonstrar habilidades em desenvolvimento web, seguindo as melhores práticas de arquitetura, design e implementação de software.
+Este é o repositório da api do projeto Natura Challenge, que complementa o [frontend desenvolvido](https://github.com/mateus-in/natura-challenge-ui) para fornecer uma aplicação web completa de e-commerce. O sistema é composto por um backend robusto, desenvolvido com Node.js e Fastify. A aplicação permite a gestão completa de produtos, categorias, departamentos, usuários, carrinhos de compras, pedidos, e oferece funcionalidades adicionais como busca. O objetivo deste projeto é demonstrar habilidades em desenvolvimento web, seguindo as melhores práticas de arquitetura, design e implementação de software.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -115,15 +115,15 @@ src/
 ### Pré-requisitos
 
 - Node.js v16.x ou superior
-- PostgreSQL
+- Docker + Docker Compose
 
 ### Instalação
 
 1. Clone o repositório:
 
   ```bash
-  git clone https://github.com/mateus-in/natura-challenge-api.git as mateus-in-natura-challenge-api
-  cd mateus-in-natura-challenge-api
+  git clone https://github.com/mateus-in/natura-challenge-api.git
+  cd natura-challenge-api
   ```
 
 2. Instale as dependências:
@@ -175,3 +175,22 @@ Para executar os testes, utilize o comando:
   ```bash
   npm run test
   ```
+
+## 🧑‍💻 Usuário de Testes
+
+Para facilitar o teste da aplicação, você pode utilizar um dos usuários de testes já criados. Apenas certifique-se de que o banco de dados está rodando e que as seeds foram executadas.
+
+### Usuário DEV
+
+dev@naturachallenge.com.br
+naturachallengepass
+
+### Usuário ADMIN
+
+admin@naturachallenge.com.br
+naturachallengepass
+
+### Usuário USER
+
+user1@naturachallenge.com.br
+naturachallengepass'
