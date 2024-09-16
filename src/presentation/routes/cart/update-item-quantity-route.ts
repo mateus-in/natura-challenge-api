@@ -10,7 +10,7 @@ export async function updateItemQuantity(
   const bodySchema = z.object({
     cartId: z.string(),
     cartItemId: z.string(),
-    quantity: z.number(),
+    quantity: z.string().transform((quantity) => Number(quantity)),
   })
 
   const body = bodySchema.parse(request.body)
