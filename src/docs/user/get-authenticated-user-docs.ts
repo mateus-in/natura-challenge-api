@@ -16,9 +16,33 @@ export const getAuthenticatedUserDocs: FastifySchema = {
       type: 'object',
       properties: {
         id: { type: 'string' },
-        name: { type: 'string' },
         email: { type: 'string' },
+        name: { type: 'string' },
         role: { type: 'string' },
+        cart: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            items: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  product: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      name: { type: 'string' },
+                      price: { type: 'number' },
+                    },
+                  },
+                  quantity: { type: 'integer' },
+                },
+              },
+            },
+          },
+        },
       },
     },
     400: {
