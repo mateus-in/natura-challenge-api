@@ -193,4 +193,4 @@ naturachallengepass
 ### Usuário USER
 
 user1@naturachallenge.com.br
-naturachallengepass'
+naturachallengepass
